@@ -5,6 +5,13 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
+/**
+ * Classe que emite um som
+ * @author armandosoaressousa
+ * 
+ * Agradecimentos a https://stackoverflow.com/questions/23096533/how-to-play-a-sound-with-a-given-sample-rate-in-java
+ *
+ */
 public class Sound {
 
 	  public static float SAMPLE_RATE = 8000f;
