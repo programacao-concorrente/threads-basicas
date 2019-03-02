@@ -13,14 +13,18 @@ public class AppMainThreadKeepAlive
         System.out.println( "Java Oracle Tutorial Threads" ); 
         System.out.println("Thread: " + threadPrincipal + " iniciou!"); 
         
-    	usandoIsAliveParaManterThreadPrincipal();
-        //usandoJoinParaManterThreadPrincipal();
+    	//usandoIsAliveParaManterThreadPrincipal();
+        usandoJoinParaManterThreadPrincipal();
         //setandoPrioridadesNasThreads();
         
         System.out.println("Thread " + Thread.currentThread().getName() + " terminou!");
                
     }
 
+    /**
+     * Manter a thread principal ativa mesmo com as threads filhas ativas, para isso, usa a técnica de um loop checando se ainda tem 
+     * pelo menos uma thread filha ativa. 
+     */
 	private static void usandoIsAliveParaManterThreadPrincipal() {
 		//Cria a tarefa e a thread para gerar números crescentes
         TarefaGeraNumerosCrescentes geraNumerosCrescentes = new TarefaGeraNumerosCrescentes("Gera Numeros Crescentes", 10); 
@@ -46,6 +50,9 @@ public class AppMainThreadKeepAlive
         }while(threadGeraNumerosCrescentes.isAlive() || threadGeraNumerosDecrescentes.isAlive());
 	}
 
+	/**
+	 * Manter a thread principal ativa durante a execução das threads filhas, para isso, usa o método join das threads.
+	 */
 	private static void usandoJoinParaManterThreadPrincipal() {
 		//Cria a tarefa e a thread para gerar números crescentes
         TarefaGeraNumerosCrescentes geraNumerosCrescentes = new TarefaGeraNumerosCrescentes("Gera Numeros Crescentes", 10); 
@@ -73,6 +80,11 @@ public class AppMainThreadKeepAlive
     	tocaSom(1);
 	}
 	
+	/**
+	 * Manter a thread principal ativa durante a execução das threads filhas, além disso, 
+	 * seta as prioridades das threads para indicar quais as threds serão mais importantes durante a execução das mesmas. 
+	 * A prioridade das threads varia de 1 a 10, de menor prioridade a mais alta prioridade.
+	 */
 	private static void setandoPrioridadesNasThreads() {
 		//Cria a tarefa e a thread para gerar números crescentes
         TarefaGeraNumerosCrescentes geraNumerosCrescentes = new TarefaGeraNumerosCrescentes("Gera Numeros Crescentes", 10); 
@@ -106,8 +118,8 @@ public class AppMainThreadKeepAlive
 	}
 
 	/**
-	 * Emite um som 
-	 * @param quantidade Quantidade de vez que o som será repetido
+	 * Emite um som n vezes e ao final toca um som mais longo para indicar final.
+	 * @param quantidade Quantidade de vezes que o som será repetido
 	 */
 	private static void tocaSom(int quantidade) {
 		try {
