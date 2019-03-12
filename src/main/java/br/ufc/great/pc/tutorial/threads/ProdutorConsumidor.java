@@ -16,14 +16,24 @@ public class ProdutorConsumidor {
 	    Consumidor c4 = new Consumidor(buffer);
 	    Consumidor c5 = new Consumidor(buffer);
 	    Consumidor c6 = new Consumidor(buffer);
+	    Consumidor c7 = new Consumidor(buffer);
+	    Consumidor c8 = new Consumidor(buffer);
+	    Consumidor c9 = new Consumidor(buffer);
+	    Consumidor c10 = new Consumidor(buffer);
 	    
+	    p.setDaemon(true);
 	    p.start();
+	    
 	    c1.start();
 	    c2.start();
 	    c3.start();
 	    c4.start();
 	    c5.start();
 	    c6.start();
-	    
+	    c7.start();
+	    c8.start();
+	    c9.start();
+	    c10.start();
+
 	  }
 	}

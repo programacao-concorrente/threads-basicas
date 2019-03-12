@@ -20,6 +20,11 @@ public class TarefaPopulaMatrizCom1 implements Runnable {
 		this.matriz = matriz;
 	}
 
+	/**
+	 * Dada uma matriz lxc (linhas x colunas) popula essa matriz com 1.
+	 * @param matriz Matriz lxc (linhas x colunas)
+	 * @return matriz populada o número 1
+	 */
 	public static int[][] populaMatrizCom1(int[][] matriz) {	
 		int linhas = matriz[0].length;
 		int colunas = matriz[1].length;
@@ -34,6 +39,9 @@ public class TarefaPopulaMatrizCom1 implements Runnable {
 		return matriz;
 	}
 
+	/**
+	 * Ação principal do runnable
+	 */
 	@Override
 	public void run() {
 		resultado = populaMatrizCom1(matriz);

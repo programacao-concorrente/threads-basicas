@@ -1,93 +1,72 @@
 package br.ufc.great.pc.tutorial.threads.matrizes.produto;
 
-import java.util.Random;
-
 import br.ufc.great.pc.tutorial.threads.tarefas.TarefaPopulaMatriz;
 import br.ufc.great.pc.tutorial.threads.utils.BarraProgresso;
 
 public class MultiplicacaoSequencial {	
-	public static void mostraConteudoDaMatriz(int[][] matriz) {
-		int linhas = matriz[0].length;
-		int colunas = matriz[1].length;
+	public static ProdutoDuasMatrizes produtoDuasMatrizes = new ProdutoDuasMatrizes();
+	public static Ajuda ajuda = new Ajuda();
+	private static int linhas=100;
+	private static int colunas=100;		
+	
+	public static int checaParametros(String[] args) {
+		int tamanho=2;
 		
-		//Imprime os valores da matriz
-		for (int i = 0; i < linhas; i++) {
-			for (int j = 0; j < colunas; j++) {
-				System.out.println("m["+i + "," + j + "]: "+ matriz[i][j]);
+		switch (args[0]) {
+		case "-s":
+			//existe o segundo argumento
+			if (!args[1].isEmpty()) {
+				try {
+					String tamanhoMatriz = args[1];
+					tamanho = Integer.parseInt(tamanhoMatriz);
+				}catch (Exception e) {
+					System.out.println("É preciso definir o tamanho da matriz como um numero inteiro maior que 2!");
+				}
+			}else {
+				throw new RuntimeException("É preciso definir o tamanho da matriz como um numero inteiro maior que 2!");
 			}
+			break;
+		case "-h":
+			ajuda.mostra();
+			System.exit(0);
+			break;
+		default:
+			throw new RuntimeException("Use os parâmetros -s N para definir o tamanho da matriz!");
 		}
+		return tamanho;
 	}
-	
-	/**
-	 * Dada as matrizes a e b, calcular o produto
-	 * @param a matriz de inteiro
-	 * @param b matriz de inteiro
-	 * @return produto entre as matrizes a e b
-	 */
-	public static int[][] calculaProduto(int[][] a, int[][] b) {
-
-	    if (a[0].length != b.length) throw new RuntimeException("Dimensões inconsistentes. Impossível multiplicar as matrizes");
-
-	    int[][] resultado = new int[ a.length ][ b[0].length ];
-
-	    for (int i = 0; i < a.length; i++)
-	        for (int j = 0; j < b[0].length; j++) {
-	            int somatoria = 0;
-	            for (int k = 0; k < a[0].length; k++) {
-	                int produto = a[i][k] * b[k][j];
-	                somatoria = somatoria + produto;
-	            }
-	            resultado[i][j] = somatoria ;
-	        }
-	    return resultado ;
-	}
-
-	/**
-	 * Dada as matrizes a e b, calcular o produto
-	 * @param a matriz de inteiro
-	 * @param b matriz de inteiro
-	 * @return produto entre as matrizes a e b
-	 */
-	public static int[][] calculoSimplificadoDoProduto(int[][] a, int[][] b) {
-
-	    if (a[0].length != b.length) throw new RuntimeException("Dimensões inconsistentes. Impossível multiplicar as matrizes");
-
-	    int[][] resultado = new int[ a.length ][ b[0].length ];
-
-	    for (int i = 0; i < a.length; i++)
-	        for (int j = 0; j < b[0].length; j++) {
-	            for (int k = 0; k < a[0].length; k++) {
-	                int produto = a[i][k] * b[k][j];
-	                resultado[i][j] = resultado[i][j] + produto;
-	            }
-	        }
-	    return resultado ;
-	}
-	
 	
 	public static void main(String[] args) {
-		int linhas=100;
-		int colunas=100;
+		//Checa se existem argumentos na execução do programa
+		if (args.length > 0) {
+			if (checaParametros(args) >= 2) {
+				linhas = checaParametros(args);
+				colunas = linhas;
+			}
+		}
 		
+		//Cria as matrizes do programa
 		int[][] matrizA = new int[linhas][colunas];
 		int[][] matrizB = new int[linhas][colunas]; 
 		int[][] matrizC = new int[linhas][colunas];
 		
-		System.out.println("Matriz A");
-		TarefaPopulaMatriz tarefaPopulaMatrizA = new TarefaPopulaMatriz(matrizA);  
+		//Cria e inicia uma thread para popular a matrizA
+		TarefaPopulaMatriz tarefaPopulaMatrizA = new TarefaPopulaMatriz(matrizA, "Popula matrizA");  
 		Thread threadPopulaMatrizA = new Thread(tarefaPopulaMatrizA, "Popula Matriz A");
 		threadPopulaMatrizA.start();
 		
-		System.out.println("Matriz B");
-		TarefaPopulaMatriz tarefaPopulaMatrizB = new TarefaPopulaMatriz(matrizB);  
+		//Cria e inicia uma thread para popular a matrizB
+		TarefaPopulaMatriz tarefaPopulaMatrizB = new TarefaPopulaMatriz(matrizB, "Popula matrizB");  
 		Thread threadPopulaMatrizB = new Thread(tarefaPopulaMatrizB, "Popula Matriz B");
 		threadPopulaMatrizB.start();
 		
-		//Garante que a thread  main (principal) vai rodar até o fim. 
+		//Garante que a thread  main (principal) vai rodar até o fim.
+		//Para este caso especifico, existem 3 threads, a thread principal (main), uma thread para popular a matrizA e outra thread para popular a matrizB
 		try {
 			threadPopulaMatrizA.join();						
 			threadPopulaMatrizB.join();
 			
+			//Mostra uma barra de progresso enquanto as threads populam as matrizes
 			BarraProgresso barra1 = new BarraProgresso();
 			System.out.println(Thread.currentThread() + " populando as matrizes...");
 			synchronized (barra1) {							
@@ -99,10 +78,12 @@ public class MultiplicacaoSequencial {
 			
 			//Só faz o cálculo do produto entre as matrizes A e B quando os processos de população das matrizes for concluído
 			if (!threadPopulaMatrizA.isAlive() && !threadPopulaMatrizB.isAlive()) {
+				System.out.println(" A thread " + threadPopulaMatrizA.getName() + " terminou.");
+				System.out.println(" A thread " + threadPopulaMatrizB.getName() + " terminou.");
 				System.out.println("Calculando o produto entre as matrizes A e B...");
-				matrizC = calculaProduto(matrizA, matrizB);
-				System.out.println("Matriz C: ");
-				mostraConteudoDaMatriz(matrizC);
+				matrizC = produtoDuasMatrizes.calculaProduto(matrizA, matrizB);
+				System.out.println("Matriz C (Matriz Produto): ");
+				produtoDuasMatrizes.mostraConteudoDaMatriz(matrizC);
 			}
 			System.out.println("Thread : " + Thread.currentThread() + " terminou!");
 			
