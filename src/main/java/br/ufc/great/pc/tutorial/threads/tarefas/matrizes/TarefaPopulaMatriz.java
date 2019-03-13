@@ -1,4 +1,4 @@
-package br.ufc.great.pc.tutorial.threads.tarefas;
+package br.ufc.great.pc.tutorial.threads.tarefas.matrizes;
 
 import br.ufc.great.pc.tutorial.threads.utils.GeraInteiroRandomico;
 

@@ -1,0 +1,32 @@
+------ Ajuda do Multiplica-Matrizes com Threads --------
+
+1. Executando o jar
+
+$java -jar nome-projeto.jar
+
+2. Opções extras
+
+a) Definindo o tamanho da matriz
+
+-s Define o tamanho da matriz lxc
+
+Exemplo:
+matriz-produto.jar -s 3 
+
+Define uma matriz 3x3
+
+b) Definindo como a matriz será populada
+
+-r popula a matriz com inteiros randomicos entre 1 e 100
+-p popula a matriz com o inteiro 1
+
+Exemplo:
+matriz-produto.jar -s 3 -p
+
+Popula uma matriz 3x3 sendo que os elementos são todos 1.
+
+c) Mostra o help do programa
+
+-h mostra o arquivo de ajuda
+
+Dúvidas ou sugestões entrar em contato com armando@ufpi.edu.br

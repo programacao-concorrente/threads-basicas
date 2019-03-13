@@ -1,6 +1,6 @@
 package br.ufc.great.pc.tutorial.threads.matrizes.produto;
 
-import br.ufc.great.pc.tutorial.threads.tarefas.TarefaPopulaMatriz;
+import br.ufc.great.pc.tutorial.threads.tarefas.matrizes.TarefaPopulaMatriz;
 import br.ufc.great.pc.tutorial.threads.utils.BarraProgresso;
 
 public class MultiplicacaoSequencial {	
