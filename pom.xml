@@ -48,7 +48,7 @@
 						<archive>
 							<manifest>
 								<mainClass>
-									br.ufc.great.pc.tutorial.threads.matrizes.produto.MultiplicacaoSequencial
+									br.ufc.great.pc.tutorial.threads.ProdutorConsumidor
 								</mainClass>
 							</manifest>
 						</archive>

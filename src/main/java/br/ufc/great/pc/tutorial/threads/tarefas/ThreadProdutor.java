@@ -4,10 +4,10 @@ import java.util.Random;
 
 import br.ufc.great.pc.tutorial.threads.recurso.Buffer;
 
-public class Produtor extends Thread {
+public class ThreadProdutor extends Thread {
 	  private Buffer buffer;
 
-	  public Produtor(Buffer buffer) {
+	  public ThreadProdutor(Buffer buffer) {
 	    this.buffer = buffer;
 	  }
 
