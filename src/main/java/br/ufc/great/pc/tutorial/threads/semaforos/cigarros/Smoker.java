@@ -1,5 +1,7 @@
 package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
 
+import java.util.concurrent.Semaphore;
+
 public abstract class Smoker {
 	protected Semaphore tobaccoSem;
 	protected Semaphore paperSem;

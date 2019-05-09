@@ -1,17 +1,9 @@
 package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.swing.ImageIcon;
+import java.util.concurrent.Semaphore;
 
 public class SmokerWithPaper extends Smoker implements Runnable {
 
@@ -41,11 +33,15 @@ public class SmokerWithPaper extends Smoker implements Runnable {
 	@Override
 	public void run() {
 		while (Main.control) {
-			paperSem.waits();
-			makeCigarette();
-			System.out.println("Weakup Agent...");
-			Agent.mutex2.signals();
-			agentSemaphore.signals();
+			try {
+				paperSem.acquire();
+				makeCigarette();
+				System.out.println("Weakup Agent...");
+				Agent.mutex2.release();
+				agentSemaphore.release();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

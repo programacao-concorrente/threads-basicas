@@ -3,6 +3,7 @@ package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 public class SmokerWithMatch extends Smoker implements Runnable {
 	public SmokerWithMatch(Semaphore tobaccoSem, Semaphore paperSem, Semaphore matchSem, Semaphore agentSemaphore) {
@@ -31,11 +32,15 @@ public class SmokerWithMatch extends Smoker implements Runnable {
 	@Override
 	public void run() {
 		while (Main.control) {
-			matchSem.waits();
-			makeCigarette();
-			System.out.println("Weakup Agent...");
-			Agent.mutex2.signals();
-			agentSemaphore.signals();
+			try {
+				matchSem.acquire();
+				makeCigarette();
+				System.out.println("Weakup Agent...");
+				Agent.mutex2.release();
+				agentSemaphore.release();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -1,5 +1,7 @@
 package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
 
+import java.util.concurrent.Semaphore;
+
 public class PusherC extends Pusher implements Runnable {
 
 	public PusherC(boolean isMatch, boolean isTobacco, boolean isPaper,
@@ -13,28 +15,30 @@ public class PusherC extends Pusher implements Runnable {
 
 	@Override
 	public void scheduleSmoker() {
-		// TODO Auto-generated method stub
-		while (true) {
-			match.waits();
-			mutex.waits();
+		try {
+			match.acquire();
+			mutex.acquire();
 
 			if (isPaper) {
 				Pusher.isPaper = false;
-				tobaccoSem.signals();
+				tobaccoSem.release();
 			} else if (isTobacco) {
 				Pusher.isTobacco = false;
-				paperSem.signals();
+				paperSem.release();
 			} else {
 				Pusher.isMatch = true;
 			}
-			mutex.signals();
+			mutex.release();
+		} catch (InterruptedException e) {
 		}
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		scheduleSmoker();
+		while(true) {
+			scheduleSmoker();			
+		}
+
 	}
 
 }

@@ -1,9 +1,9 @@
 package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
 
-public class Semaphore {
+public class Semaphores {
 	public volatile int initial;
 	private static int lock=1;
-	public Semaphore(int initial) {
+	public Semaphores(int initial) {
 		this.initial = initial;
 	}
 	public void waits(){

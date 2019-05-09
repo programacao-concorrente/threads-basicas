@@ -1,5 +1,7 @@
 package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
 
+import java.util.concurrent.Semaphore;
+
 public abstract class Pusher {
 	protected static boolean isMatch;
 	protected static boolean isTobacco;
