@@ -1,13 +1,15 @@
-package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
+package br.ufc.great.pc.tutorial.threads.semaforos.cigarros.smokers;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Semaphore;
 
-public class SmokerWithPaper extends Smoker implements Runnable {
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.Main;
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.agentes.Agent;
 
-	public SmokerWithPaper(Semaphore tobaccoSem, Semaphore paperSem, Semaphore matchSem, Semaphore agentSemaphore) {
+public class SmokerWithMatch extends Smoker implements Runnable {
+	public SmokerWithMatch(Semaphore tobaccoSem, Semaphore paperSem, Semaphore matchSem, Semaphore agentSemaphore) {
 		super(tobaccoSem, paperSem, matchSem, agentSemaphore);
 	}
 
@@ -17,24 +19,24 @@ public class SmokerWithPaper extends Smoker implements Runnable {
 			try {
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				Date date = new Date();
-				System.out.println("Smoker with paper making cigarette "+dateFormat.format(date));
+				System.out.println("Smoker with match making cigarette "+dateFormat.format(date));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println("SmokerWithPaper fumando...");
+			System.out.println("SmokerWithMatch fumando...");
 		}
 		try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e) {
-			System.out.println(e.getMessage());
+			System.out.println();
 		}
 	}
-	
+
 	@Override
 	public void run() {
 		while (Main.control) {
 			try {
-				paperSem.acquire();
+				matchSem.acquire();
 				makeCigarette();
 				System.out.println("Weakup Agent...");
 				Agent.mutex2.release();

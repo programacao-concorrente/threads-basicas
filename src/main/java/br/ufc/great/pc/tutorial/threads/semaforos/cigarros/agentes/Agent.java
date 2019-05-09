@@ -1,4 +1,4 @@
-package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
+package br.ufc.great.pc.tutorial.threads.semaforos.cigarros.agentes;
 
 import java.util.concurrent.Semaphore;
 

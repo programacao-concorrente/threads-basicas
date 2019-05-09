@@ -1,9 +1,12 @@
-package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
+package br.ufc.great.pc.tutorial.threads.semaforos.cigarros.smokers;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Semaphore;
+
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.Main;
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.agentes.Agent;
 
 public class SmokerWithTobacco extends Smoker implements Runnable {
 

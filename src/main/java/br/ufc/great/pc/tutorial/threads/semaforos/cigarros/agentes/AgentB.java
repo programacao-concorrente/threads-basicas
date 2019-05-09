@@ -1,6 +1,8 @@
-package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
+package br.ufc.great.pc.tutorial.threads.semaforos.cigarros.agentes;
 
 import java.util.concurrent.Semaphore;
+
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.Main;
 
 public class AgentB extends Agent implements Runnable {
 

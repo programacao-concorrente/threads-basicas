@@ -1,9 +1,14 @@
 package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
+
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.agentes.GenericAgent;
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.pushers.PusherA;
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.pushers.PusherB;
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.pushers.PusherC;
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.smokers.SmokerWithMatch;
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.smokers.SmokerWithPaper;
+import br.ufc.great.pc.tutorial.threads.semaforos.cigarros.smokers.SmokerWithTobacco;
 
 public class Main {
 
@@ -11,7 +16,6 @@ public class Main {
 	 * @param args
 	 * @throws InterruptedException 
 	 */
-	public static ExecutorService application;
 	public static boolean control=true;
 	
 	public static void main(String[] args) throws InterruptedException {
@@ -28,19 +32,21 @@ public class Main {
 		Boolean isTobacco = new Boolean(false);
 		Boolean isPaper = new Boolean(false);
 
-		application = Executors.newCachedThreadPool();
-		application.execute(new GenericAgent(agentSemaphore, tobacco, paper, match));
+		Thread agente = new Thread(new GenericAgent(agentSemaphore, tobacco, paper, match), "Agente");
+		Thread pusherA = new Thread(new PusherA(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex), "PucherA");
+		Thread pusherB = new Thread(new PusherB(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex), "PucherA");
+		Thread pusherC = new Thread(new PusherC(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex), "PucherA");
+		Thread smokerA = new Thread(new SmokerWithMatch(tobaccoSem, paperSem, matchSem, agentSemaphore),"SmokerWithMatch");
+		Thread smokerB = new Thread(new SmokerWithPaper(tobaccoSem, paperSem, matchSem, agentSemaphore),"SmokerWithPaper");
+		Thread smokerC = new Thread(new SmokerWithTobacco(tobaccoSem, paperSem, matchSem, agentSemaphore),"SmokerWithTobacco");
 		
-		application.execute(new PusherA(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex));
-		application.execute(new PusherB(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex));
-		application.execute(new PusherC(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex));
-		
-		application.execute(new SmokerWithMatch(tobaccoSem, paperSem, matchSem, agentSemaphore));
-		application.execute(new SmokerWithPaper(tobaccoSem, paperSem, matchSem, agentSemaphore));
-		application.execute(new SmokerWithTobacco(tobaccoSem, paperSem, matchSem, agentSemaphore));
-
-		if (application.awaitTermination(6, TimeUnit.SECONDS)) {
-		} 
+		agente.start();
+		pusherA.start();
+		pusherB.start();
+		pusherC.start();
+		smokerA.start();
+		smokerB.start();
+		smokerC.start();
 
 	}
 
