@@ -8,9 +8,7 @@ public class PusherB extends Pusher implements Runnable {
 			Semaphore tobacco, Semaphore paper, Semaphore match,
 			Semaphore tobaccoSem, Semaphore paperSem, Semaphore matchSem,
 			Semaphore mutex) {
-
-		super(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem,
-				paperSem, matchSem, mutex);
+		super(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex);
 	}
 
 	@Override
@@ -18,10 +16,10 @@ public class PusherB extends Pusher implements Runnable {
 		try {
 			paper.acquire();
 			mutex.acquire();
+			
 			if (isTobacco) {
 				Pusher.isTobacco = false;
 				matchSem.release();
-
 			} else if (isMatch) {
 				Pusher.isMatch = false;
 				tobaccoSem.release();

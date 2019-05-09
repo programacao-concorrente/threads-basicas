@@ -28,7 +28,7 @@ public class SmokerWithMatch extends Smoker implements Runnable {
 			System.out.println();
 		}
 	}
-	
+
 	@Override
 	public void run() {
 		while (Main.control) {

@@ -29,10 +29,8 @@ public class Main {
 		Boolean isPaper = new Boolean(false);
 
 		application = Executors.newCachedThreadPool();
-		application.execute(new AgentA(agentSemaphore, tobacco, paper, match));
-		application.execute(new AgentB(agentSemaphore, tobacco, paper, match));
-		application.execute(new AgentC(agentSemaphore, tobacco, paper, match));
-
+		application.execute(new GenericAgent(agentSemaphore, tobacco, paper, match));
+		
 		application.execute(new PusherA(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex));
 		application.execute(new PusherB(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex));
 		application.execute(new PusherC(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem, paperSem, matchSem, mutex));

@@ -8,9 +8,7 @@ public class PusherC extends Pusher implements Runnable {
 			Semaphore tobacco, Semaphore paper, Semaphore match,
 			Semaphore tobaccoSem, Semaphore paperSem, Semaphore matchSem,
 			Semaphore mutex) {
-		super(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem,
-				paperSem, matchSem, mutex);
-		// TODO Auto-generated constructor stub
+		super(isMatch, isTobacco, isPaper, tobacco, paper, match, tobaccoSem,paperSem, matchSem, mutex);
 	}
 
 	@Override
