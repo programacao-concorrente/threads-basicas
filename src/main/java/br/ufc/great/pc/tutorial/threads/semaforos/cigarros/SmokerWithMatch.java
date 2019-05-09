@@ -1,0 +1,42 @@
+package br.ufc.great.pc.tutorial.threads.semaforos.cigarros;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class SmokerWithMatch extends Smoker implements Runnable {
+	public SmokerWithMatch(Semaphore tobaccoSem, Semaphore paperSem, Semaphore matchSem, Semaphore agentSemaphore) {
+		super(tobaccoSem, paperSem, matchSem, agentSemaphore);
+	}
+
+	@Override
+	public void makeCigarette() {
+		if (Main.control) {
+			try {
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date date = new Date();
+				System.out.println("Smoker with match making cigarette "+dateFormat.format(date));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("SmokerWithMatch fumando...");
+		}
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			System.out.println();
+		}
+	}
+	
+	@Override
+	public void run() {
+		while (Main.control) {
+			matchSem.waits();
+			makeCigarette();
+			System.out.println("Weakup Agent...");
+			Agent.mutex2.signals();
+			agentSemaphore.signals();
+		}
+	}
+
+}
